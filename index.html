@@ -204,16 +204,48 @@ footer .links a:hover{color:var(--gold-text)}
 .gbtn:disabled{opacity:.6;cursor:not-allowed}
 .logo{position:relative;display:inline-block;line-height:1;letter-spacing:.02em;font-family:"Permanent Marker",Impact,"Arial Black",sans-serif;font-size:1.75rem;transform:skewX(-6deg);padding-bottom:6px}
 .logo .lg2{position:absolute;left:34%;bottom:-6px;font-family:"Rock Salt","Brush Script MT",cursive;font-size:.62rem;letter-spacing:.06em;color:var(--text);white-space:nowrap}
+/* drawer menu */
+.drov{position:fixed;inset:0;background:rgba(0,0,0,.55);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s;z-index:60}
+.drov.on{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(68vw,270px);background:var(--bg);border-left:1px solid var(--line);z-index:70;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .28s ease;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);visibility:hidden}
+.drawer.on{transform:translateX(0);visibility:visible}
+.dr-h{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--line);font-weight:600;color:var(--gold-text)}
+.dr-x{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1rem;cursor:pointer;font-family:inherit}
+.dr-n{overflow-y:auto;flex:1}
+.dr-n a,.dr-n summary{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line);font-size:1rem;font-weight:400;color:var(--text);cursor:pointer;list-style:none}
+.dr-n summary::-webkit-details-marker{display:none}
+.dr-n a:hover,.dr-n summary:hover{color:var(--gold-text)}
+.drawer details{background:none;border:0;border-radius:0;padding:0;margin:0}
+.drawer summary::after{content:"\2039";font-size:1.3rem;color:var(--muted);transition:transform .2s}
+.drawer details[open] summary::after{transform:rotate(-90deg)}
+.dr-n details a{padding:12px 36px;font-size:.92rem;color:var(--muted);background:var(--surface)}
+.dr-f{padding:14px 20px;border-top:1px solid var(--line)}
+.dr-f a{display:block;text-align:center;background:var(--gold);color:var(--on-gold);font-weight:600;padding:11px;border-radius:999px}
+.bar{height:64px}
+.ic{width:42px;height:42px;color:var(--gold-text);border:2px solid var(--gold);background:var(--surface)}
+#acc,.ic.cartic{color:var(--gold-text)}
+#menuBtn{background:var(--gold);color:var(--on-gold);border-color:var(--gold);width:44px;height:44px;cursor:pointer}
+.icons{gap:8px}
+#acc{font-size:1.3rem;line-height:1}
+.tg{width:54px;height:54px;border-radius:50%;background:#229ED9;display:grid;place-items:center;box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.tgfab{position:fixed;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 16px);z-index:30}
+.dr-f{display:flex;justify-content:center}
+.dr-f a.tg{padding:0;background:#229ED9;display:grid}
+.fab{bottom:calc(env(safe-area-inset-bottom,0px) + 82px)}
+body{padding-bottom:80px}
+.top{transition:transform .3s ease}
+.top.hide{transform:translateY(calc(-100% - env(safe-area-inset-top,0px)))}
+@media (prefers-reduced-motion:reduce){.top{transition:none}}
 </style>
 </head>
 <body>
 <div class="top">
   <div class="wrap">
     <div class="bar">
-            <div class="icons"><button class="ic" id="acc" type="button" aria-label="تسجيل الدخول">&#128100;</button></div>
+            <div class="icons"><button class="ic" id="menuBtn" type="button" aria-label="القائمة" aria-expanded="false" aria-controls="drawer"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button><button class="ic" id="acc" type="button" aria-label="تسجيل الدخول">&#128100;</button></div>
       <a class="logo" href="#" aria-label="MESSHA STORE"><span class="lg1">MESSHA</span><span class="lg2" aria-hidden="true">STORE</span></a>
       <div class="icons">
-        <a class="ic cartic" id="cart" href="#checkout" aria-label="السلة">&#128722;<span id="cnt" class="cnt" hidden>0</span></a>
+        <a class="ic cartic" id="cart" href="#checkout" aria-label="السلة"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.6"/><circle cx="18" cy="20" r="1.6"/><path d="M2 3h3l2.6 12.4a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 7H6"/></svg><span id="cnt" class="cnt" hidden>0</span></a>
       </div>
     </div>
     <nav class="nav" aria-label="الأقسام">
@@ -439,6 +471,28 @@ footer .links a:hover{color:var(--gold-text)}
   </div>
 </main>
 
+<main class="co" id="terms" hidden>
+  <a class="back" href="#">&#8594; رجوع للمتجر</a>
+  <div class="box" style="line-height:1.9">
+    <p style="color:var(--text);font-weight:600;margin:0 0 4px;font-size:1.1rem">🛒 طريقة الطلب</p>
+    <p style="margin:0">١. أضف المنتج إلى السلة (أو اضغط "ادفع الآن")</p>
+    <p style="color:var(--gold-text);font-weight:700;margin:22px 0 0;font-size:1.15rem">🛡 ضمان وسياسة MESSHA STORE</p>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">✅ مدة الضمان</p>
+    <p style="margin:0">ضمان ١٤ يوماً من استلامك للمنتج.</p>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">🔧 وش يشمله؟</p>
+    <ul style="margin:0;padding-inline-start:20px"><li>بيانات الحساب لا تعمل عند الاستلام</li><li>اللعبة غير موجودة في الحساب</li><li>توقف النسخة بسبب خلل من طرفنا</li></ul>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">💬 الحل</p>
+    <p style="margin:0">نصلح المشكلة أو نستبدل الحساب، فإن تعذر ذلك نرد لك المبلغ كاملاً. نرد على طلبك خلال ٣ أيام عمل، ونعيد المبلغ إن استحققته خلال ٧ أيام عمل.</p>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">🚫 لا يشمله</p>
+    <ul style="margin:0;padding-inline-start:20px"><li>مخالفة شروط المنتج: تغيير بيانات الحساب، مشاركته، الخروج منه، حذفه، فرمتة الجهاز، أو نقل اللعبة بين جهازين</li><li>شراء نسخة لا تناسب جهازك</li><li>مشاكل من طرفك مثل سرعة الإنترنت أو ضعف الجهاز</li><li>قرارات سوني أو EA المؤثرة على الحسابات أو اللعبة</li></ul>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">⏱ التأخير</p>
+    <p style="margin:0">إذا تأخر التسليم أكثر من ٧ أيام من تأكيد الدفع، يحق لك إلغاء الطلب واسترداد المبلغ كاملاً.</p>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">📩 طريقة الطلب</p>
+    <p style="margin:0">راسلنا على تيليجرام أو واتساب برقم الطلب وتسجيل شاشة للمشكلة.</p>
+    <p style="color:var(--text);font-weight:600;margin:16px 0 4px">🤝 احترام الطرفين</p>
+    <p style="margin:0">نتعامل بأدب مع عملائنا ونتوقع نفس الشيء. قد نحتفظ بالمحادثات لأغراض الدعم. والإساءة المتكررة قد توقف الخدمة.</p>
+  </div>
+</main>
 <main class="co" id="policies" hidden>
   <a class="back" href="#">&#8594; رجوع للمتجر</a>
   <h2>سياسات المتجر</h2>
@@ -512,6 +566,31 @@ footer .links a:hover{color:var(--gold-text)}
       <li>إذا لم تقتنع بالحل، يحق لك التقدم بشكواك إلى وزارة التجارة عبر قنواتها الرسمية.</li>
     </ul>
   </details></div>
+  <div class="box terms"><details id="pol-warranty"><summary>🛡 ضمان MESSHA STORE</summary>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">✅ مدة الضمان</p>
+    <p>ضمان ١٤ يوماً من استلامك للمنتج.</p>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">🔧 ماذا يشمل الضمان؟</p>
+    <ul>
+      <li>بيانات الحساب لا تعمل عند الاستلام.</li>
+      <li>اللعبة غير موجودة في الحساب.</li>
+      <li>توقف النسخة بسبب خلل من طرفنا.</li>
+    </ul>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">💬 الحل</p>
+    <p>نصلح المشكلة أو نستبدل الحساب، فإن تعذر ذلك نردّ لك المبلغ كاملاً. نردّ على طلبك خلال ٣ أيام عمل، ونعيد المبلغ إن استحققته خلال ٧ أيام عمل.</p>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">🚫 ما لا يشمله الضمان</p>
+    <ul>
+      <li>مخالفة شروط المنتج: تغيير بيانات الحساب أو مشاركته أو الخروج منه أو حذفه أو فرمتة الجهاز أو نقل اللعبة بين جهازين.</li>
+      <li>شراء نسخة لا تناسب جهازك.</li>
+      <li>مشاكل من طرفك مثل سرعة الإنترنت أو ضعف الجهاز.</li>
+      <li>قرارات سوني أو EA المؤثرة على الحسابات أو اللعبة.</li>
+    </ul>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">⏱ التأخير</p>
+    <p>إذا تأخر التسليم أكثر من ٧ أيام من تأكيد الدفع، يحق لك إلغاء الطلب واسترداد المبلغ كاملاً.</p>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">🛒 طريقة الطلب</p>
+    <p>١. أضف المنتج إلى السلة (أو اضغط "ادفع الآن")</p>
+    <p style="color:var(--text);font-weight:600;margin:14px 0 4px">🤝 احترام الطرفين</p>
+    <p>نتعامل بأدب مع عملائنا ونتوقع نفس الشيء. قد نحتفظ بالمحادثات لأغراض الدعم، والإساءة المتكررة قد توقف الخدمة.</p>
+  </details></div>
 </main>
 
 <footer>
@@ -527,7 +606,7 @@ footer .links a:hover{color:var(--gold-text)}
     <div class="links">
       <a href="#faq">الأسئلة الشائعة</a>
       <a href="#why">لماذا نحن</a>
-      <a href="#policies">الشروط والسياسات</a>
+      <a href="#terms">الشروط والسياسات</a>
     </div>
     <div class="fnote">متجر مستقل وغير تابع لشركتي EA وSony</div>
     <div>جميع الحقوق محفوظة 2026</div>
@@ -535,6 +614,57 @@ footer .links a:hover{color:var(--gold-text)}
 </footer>
 
 <button class="fab" id="fab" type="button" aria-label="رجوع للصفحة السابقة" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h16M14 6l6 6-6 6"/></svg></button>
+<div class="drov" id="drOv"></div>
+<aside class="drawer" id="drawer" aria-label="القائمة الرئيسية" aria-hidden="true">
+  <div class="dr-h"><span>القائمة الرئيسية</span><button class="dr-x" id="drX" type="button" aria-label="إغلاق">&#10005;</button></div>
+  <nav class="dr-n">
+    <a href="#">الرئيسية</a>
+    <a href="#p-ps5">ألعاب سوني 5</a>
+    <a href="#p-ps4">ألعاب سوني 4</a>
+    <a href="#why" data-sc="why">لماذا MESSHA STORE</a>
+    <a href="#faq" data-sc="faq">الأسئلة الشائعة</a>
+    <details><summary>خدمة العملاء</summary>
+      <a href="https://t.me/a1meshal" target="_blank" rel="noopener">تيليجرام</a>
+      <a href="https://wa.me/966554881755" target="_blank" rel="noopener">واتساب</a>
+      <a href="tel:+966554881755">اتصال</a>
+      <a href="mailto:meshal.aboabat@gmail.com">البريد</a>
+    </details>
+  </nav>
+  <div class="dr-f"><a class="tg" href="https://t.me/a1meshal" target="_blank" rel="noopener" aria-label="تيليجرام @a1meshal"><svg viewBox="0 0 24 24" width="28" height="28" fill="#fff" aria-hidden="true"><path d="M21.4 3.3 2.9 10.5c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8L22.9 4.7c.3-1.2-.5-1.8-1.5-1.4zM8.4 13l9.2-5.8c.4-.3.8-.1.5.2L10.5 14.5l-.3 3.2z"/></svg></a></div>
+</aside>
+<script>
+(function(){
+  var d=document.getElementById("drawer"),o=document.getElementById("drOv"),b=document.getElementById("menuBtn");
+  function openD(){d.classList.add("on");o.classList.add("on");d.setAttribute("aria-hidden","false");b.setAttribute("aria-expanded","true");document.body.style.overflow="hidden";}
+  function closeD(){d.classList.remove("on");o.classList.remove("on");d.setAttribute("aria-hidden","true");b.setAttribute("aria-expanded","false");document.body.style.overflow="";}
+  b.addEventListener("click",function(){d.classList.contains("on")?closeD():openD();});
+  document.getElementById("drX").addEventListener("click",closeD);
+  o.addEventListener("click",closeD);
+  document.addEventListener("keydown",function(e){if(e.key==="Escape")closeD();});
+  d.querySelectorAll("a").forEach(function(a){
+    a.addEventListener("click",function(){
+      closeD();
+      var id=a.getAttribute("data-sc");
+      if(id){setTimeout(function(){var el=document.getElementById(id);if(el)el.scrollIntoView();},80);}
+    });
+  });
+})();
+</script>
+<a class="tgfab tg" href="https://t.me/a1meshal" target="_blank" rel="noopener" aria-label="تيليجرام @a1meshal"><svg viewBox="0 0 24 24" width="28" height="28" fill="#fff" aria-hidden="true"><path d="M21.4 3.3 2.9 10.5c-1.3.5-1.2 1.2-.2 1.5l4.7 1.5 1.8 5.6c.2.6.1.8.7.8.5 0 .7-.2 1-.5l2.3-2.2 4.7 3.5c.9.5 1.5.2 1.7-.8L22.9 4.7c.3-1.2-.5-1.8-1.5-1.4zM8.4 13l9.2-5.8c.4-.3.8-.1.5.2L10.5 14.5l-.3 3.2z"/></svg></a>
+<script>
+(function(){
+  var h=document.querySelector(".top"),last=window.scrollY,tk=false;
+  function upd(){
+    var y=Math.max(window.scrollY,0),dy=y-last;
+    if(y<80){h.classList.remove("hide");}
+    else if(dy>6){h.classList.add("hide");}
+    else if(dy<-6){h.classList.remove("hide");}
+    if(Math.abs(dy)>6||y<80){last=y;}
+    tk=false;
+  }
+  window.addEventListener("scroll",function(){if(!tk){tk=true;requestAnimationFrame(upd);}},{passive:true});
+})();
+</script>
 <div class="toast" id="toast" role="status"></div>
 <div class="modal" id="modal" hidden>
   <div class="mbox" role="dialog" aria-modal="true" aria-label="الحساب">
@@ -586,12 +716,12 @@ footer .links a:hover{color:var(--gold-text)}
     $("form").hidden=items.length===0;
   }
   function show(){
-    var h=location.hash,on=(h==="#checkout"),p4=(h==="#p-ps4"),p5=(h==="#p-ps5"),pl=(h==="#policies"||h.indexOf("#pol-")===0);
-    shop.hidden=on||p4||p5||pl;co.hidden=!on;$("policies").hidden=!pl;
+    var h=location.hash,on=(h==="#checkout"),p4=(h==="#p-ps4"),p5=(h==="#p-ps5"),pl=(h==="#policies"||h.indexOf("#pol-")===0),tm=(h==="#terms");
+    shop.hidden=on||p4||p5||pl||tm;$("terms").hidden=!tm;co.hidden=!on;$("policies").hidden=!pl;
     $("pd-ps4").hidden=!p4;$("pd-ps5").hidden=!p5;
     if(on){$("done").hidden=true;agree.checked=false;go.disabled=true;$("err").textContent="";render();}
-    $("fab").hidden=!(on||p4||p5||pl);
-    if(on||p4||p5||pl){window.scrollTo(0,0);}
+    $("fab").hidden=!(on||p4||p5||pl||tm);
+    if(on||p4||p5||pl||tm){window.scrollTo(0,0);}
     if(pl&&h.indexOf("#pol-")===0){
       var d=document.getElementById(h.slice(1));
       if(d&&d.tagName==="DETAILS"){d.open=true;d.scrollIntoView();}
